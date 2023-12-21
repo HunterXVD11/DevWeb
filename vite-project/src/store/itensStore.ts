@@ -4,25 +4,25 @@ import Item from "../interfaces/item";
 interface ItemStore {
     pagina: number;
     origem: string;
-    itemSelecionada: Item;
+    ItemSelecionado: Item;
     tamanho: number;
 
     setPagina: (pagina: number) => void;
     setOrigem: (origem
 : string) => void;
-    setItemSelecionada: (itemSelecionada: Item) => void;
+    setItemSelecionado: (ItemSelecionado: Item) => void;
 }
 
 const useItemStore = create<ItemStore>((set) => ({
     pagina: 0,
     origem: "",
-    itemSelecionada: {} as Item,
+    ItemSelecionado: {} as Item,
     tamanho: 5,
 
     setPagina: (pagina: number) => set(() => ({pagina: pagina})),
     setOrigem: (origem
 : string) => set(() => ({origem
 : origem})),
-    setItemSelecionada: (itemSelecionada: Item) => set(() => ({itemSelecionada: itemSelecionada}))
+    setItemSelecionado: (ItemSelecionado: Item) => set(() => ({ItemSelecionado: ItemSelecionado}))
 }));
 export default useItemStore;

@@ -1,14 +1,35 @@
 import { FieldValues, useForm } from "react-hook-form";
 import useCadastrarItem from "../hooks/UseCadastro";
 import Item from "../interfaces/item";
+import Categoria from "../interfaces/categoria";
 import useCategorias from "../hooks/UseCategorias";
 import { useEffect } from "react";
+import useAlterarItem from "../hooks/UseAltera";
+import { URL_CATEGORIAS } from "../util/constants";
+import useApi from "../hooks/UseApi";
 
-const CadastroDeItemsForm = () => {
-  console.log(">>>>>>>>>>>>>>>>> renderizou o componente CadastroDeItemsForm");
+const { recuperar } = useApi<Categoria>(URL_CATEGORIAS);
+let categoriasValidas: Categoria[];
+
+const validaCategoria = async (id: string) => {
+  if (!categoriasValidas) {
+    categoriasValidas = await recuperar();
+  }
+  const cat = categoriasValidas.find((categoria) => categoria.id === parseInt(id));
+  return cat;
+};
+
+interface Props {
+  itemSelecionado: Item;
+  tratarItemSelecionado: (item: Item) => void;
+}
+
+const CadastroDeItemsForm = ({itemSelecionado,tratarItemSelecionado}:Props) => {
+  // console.log(">>>>>>>>>>>>>>>>> renderizou o componente CadastroDeItemsForm");
 
   const { mutate: cadastrarItem, error: errorCadastrar } = useCadastrarItem();
   const { data: categorias, error: errorCategorias } = useCategorias();
+  const { mutate: alterarItem, error: errorAlterar } = useAlterarItem();
 
   const { register, handleSubmit, reset } = useForm();
   
@@ -35,7 +56,18 @@ const CadastroDeItemsForm = () => {
       categoria: { id: categoria, nome: "" },
     };
 
-    cadastrarItem(item);
+    // console.log("---------------------------------------------------------------------------------")
+    // console.log(itemSelecionado.id)
+    // console.log("---------------------------------------------------------------------------------")
+    // console.log(item.id)
+    // console.log("---------------------------------------------------------------------------------")
+    // if (itemSelecionado.id) {
+    //   item.id = itemSelecionado.id;
+    //   alterarItem(item);
+    // } else {
+      cadastrarItem(item);
+    // }
+    // cadastrarItem(item);
     reset();
   };
 

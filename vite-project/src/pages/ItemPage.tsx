@@ -23,10 +23,10 @@ const DetalhesItem = () => {
 
       };
 
-      const setItemSelecionada = useItemStore(s => s.setItemSelecionada);
+      const setItemSelecionado = useItemStore(s => s.setItemSelecionado);
 
-      const tratarItemSelecionada = (item: Item) => {
-        setItemSelecionada(item);
+      const tratarItemSelecionado = (item: Item) => {
+        setItemSelecionado(item);
         navigate('/vertudo');
       }
 
