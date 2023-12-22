@@ -40,6 +40,9 @@ const TabelasDeItens = ({ itens,tratarRemocaoDeItem,tratarItemSelecionado}: Prop
               <button onClick={() => tratarRemocaoDeItem(item.id!)}  className="btn btn-danger" >
                 Remover
               </button>
+              <button  onClick={() => tratarItemSelecionado(item)}  className="btn btn-danger" >
+                Alterar
+              </button>
             </div>
             <td colSpan={2} className="align-middle text-center fw-bold">
             R$ {" "}
