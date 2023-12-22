@@ -1,5 +1,6 @@
 import TabelasDeItens from "../components/TabelaDeItens";
 import useItens from "../hooks/UseItens";
+import Item from "../interfaces/item";
 import Paginacao from "../components/Paginacao";
 import Pesquisa from "../components/Pesquisa";
 import useItensPaginados from "../hooks/UseItensPaginados";
@@ -13,6 +14,7 @@ import axios from "axios";
 const VerTudo = () => {
   const [pagina, setPagina] = useState(0);
   const [nome, setNome] = useState("");
+  const [itemSelecionado, setItemSelecionado] = useState({ } as Item);
   
 
   const tratarPaginaSelecionada = (page: number) => setPagina(page);
@@ -20,6 +22,7 @@ const VerTudo = () => {
     setNome(nome);
     setPagina(0);
   }
+  const tratarItemSelecionado = (item: Item) => setItemSelecionado(item);
 
   const { 
     data: itemRemovido,
@@ -56,13 +59,20 @@ const VerTudo = () => {
         <h5>Cadastro de Produtos</h5>
         <hr className="mt-0" />
       </div>
-    <CadastroItem />
+    <CadastroItem
+    itemSelecionado={itemSelecionado}
+    tratarItemSelecionado={tratarItemSelecionado}
+     />
     <div className="mb-4">
         <h5>Lista de Produtos</h5>
         <hr className="mt-0" />
       </div>
     <Pesquisa tratarNomePesquisado={tratarNomePesquisado} nome={nome}/>
-    <TabelasDeItens itens={itens} tratarRemocaoDeItem={tratarRemocaoDeItem}/>
+    <TabelasDeItens
+     itens={itens} 
+     tratarRemocaoDeItem={tratarRemocaoDeItem}
+     tratarItemSelecionado={tratarItemSelecionado}
+     />
     <Paginacao paginaCorrente={pagina} 
                  totalDePaginas={totalDePaginas} 
                  tratarPaginaSelecionada={tratarPaginaSelecionada}/>

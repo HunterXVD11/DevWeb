@@ -15,7 +15,9 @@ const validaCategoria = async (id: string) => {
   if (!categoriasValidas) {
     categoriasValidas = await recuperar();
   }
-  const cat = categoriasValidas.find((categoria) => categoria.id === parseInt(id));
+  const cat = categoriasValidas.find(
+    (categoria) => categoria.id === parseInt(id)
+  );
   return cat;
 };
 
@@ -24,15 +26,26 @@ interface Props {
   tratarItemSelecionado: (item: Item) => void;
 }
 
-const CadastroDeItemsForm = ({itemSelecionado,tratarItemSelecionado}:Props) => {
+const CadastroDeItemsForm = ({
+  itemSelecionado,
+  tratarItemSelecionado,
+}: Props) => {
   // console.log(">>>>>>>>>>>>>>>>> renderizou o componente CadastroDeItemsForm");
 
   const { mutate: cadastrarItem, error: errorCadastrar } = useCadastrarItem();
   const { data: categorias, error: errorCategorias } = useCategorias();
   const { mutate: alterarItem, error: errorAlterar } = useAlterarItem();
 
-  const { register, handleSubmit, reset } = useForm();
-  
+  const {
+    register,
+    handleSubmit,
+    reset,
+    // formState: { errors, isSubmitSuccessful },
+    setValue,
+    setFocus,
+    control,
+  } = useForm();
+
   const onSubmit = ({
     nome,
     anoLancamento,
@@ -45,14 +58,14 @@ const CadastroDeItemsForm = ({itemSelecionado,tratarItemSelecionado}:Props) => {
     categoria,
   }: FieldValues) => {
     const item: Item = {
-      nome: nome ,
+      nome: nome,
       anoLancamento: anoLancamento, // Use null ou ajuste conforme necessário
       diretor: diretor,
       genero: genero,
       descricao: descricao,
       trailer: trailer,
       image: image,
-      nota: nota , // Use null ou ajuste conforme necessário
+      nota: nota, // Use null ou ajuste conforme necessário
       categoria: { id: categoria, nome: "" },
     };
 
@@ -61,18 +74,35 @@ const CadastroDeItemsForm = ({itemSelecionado,tratarItemSelecionado}:Props) => {
     // console.log("---------------------------------------------------------------------------------")
     // console.log(item.id)
     // console.log("---------------------------------------------------------------------------------")
-    // if (itemSelecionado.id) {
-    //   item.id = itemSelecionado.id;
-    //   alterarItem(item);
-    // } else {
+    if (itemSelecionado.id) {
+      item.id = itemSelecionado.id;
+      alterarItem(item);
+    } else {
       cadastrarItem(item);
-    // }
+    }
     // cadastrarItem(item);
-    reset();
+
   };
 
-  if (errorCategorias) throw errorCategorias;
+  // useEffect(() => {
+  //   setFocus("nome");
+  //   if (itemSelecionado.id) {
+  //     reset();
+  //     setValue("nome", itemSelecionado.nome);
+  //     setValue("descricao", itemSelecionado.descricao);
+  //     setValue("image", itemSelecionado.image);
+  //     setValue("trailer", itemSelecionado.trailer);
+  //     setValue("genero", itemSelecionado.genero);
+  //     setValue("diretor", itemSelecionado.diretor);
+  //     setValue("anoLancamento", itemSelecionado.anoLancamento);
+  //     setValue("nota", itemSelecionado.nota);
+  //     setValue("categoria", String(itemSelecionado.categoria.id));
+  //   }
+  // }, [itemSelecionado]);
 
+  
+
+  if (errorCategorias) throw errorCategorias;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

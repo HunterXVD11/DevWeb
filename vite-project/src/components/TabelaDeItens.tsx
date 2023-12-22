@@ -6,9 +6,11 @@ import { useNavigate } from 'react-router-dom';
 interface Props {
   itens: Item[];
   tratarRemocaoDeItem: (id: number) => void;
+  tratarItemSelecionado: (item: Item) => void;
+
 }
 
-const TabelasDeItens = ({ itens,tratarRemocaoDeItem}: Props) => {
+const TabelasDeItens = ({ itens,tratarRemocaoDeItem,tratarItemSelecionado}: Props) => {
   const navigate = useNavigate();
 
   const detalhesItem= (item: Item) => {
