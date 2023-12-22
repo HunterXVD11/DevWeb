@@ -40,11 +40,15 @@ const CadastroDeItemsForm = ({
     register,
     handleSubmit,
     reset,
-    // formState: { errors, isSubmitSuccessful },
+    formState: { errors, isSubmitSuccessful },
     setValue,
     setFocus,
     control,
   } = useForm();
+  console.log("---------------------------------------------------------------------------------")
+    console.log(itemSelecionado.id)
+    console.log("---------------------------------------------------------------------------------")
+    
 
   const onSubmit = ({
     nome,
@@ -69,11 +73,7 @@ const CadastroDeItemsForm = ({
       categoria: { id: categoria, nome: "" },
     };
 
-    // console.log("---------------------------------------------------------------------------------")
-    // console.log(itemSelecionado.id)
-    // console.log("---------------------------------------------------------------------------------")
-    // console.log(item.id)
-    // console.log("---------------------------------------------------------------------------------")
+    
     if (itemSelecionado.id) {
       item.id = itemSelecionado.id;
       alterarItem(item);
@@ -84,23 +84,28 @@ const CadastroDeItemsForm = ({
 
   };
 
-  // useEffect(() => {
-  //   setFocus("nome");
-  //   if (itemSelecionado.id) {
-  //     reset();
-  //     setValue("nome", itemSelecionado.nome);
-  //     setValue("descricao", itemSelecionado.descricao);
-  //     setValue("image", itemSelecionado.image);
-  //     setValue("trailer", itemSelecionado.trailer);
-  //     setValue("genero", itemSelecionado.genero);
-  //     setValue("diretor", itemSelecionado.diretor);
-  //     setValue("anoLancamento", itemSelecionado.anoLancamento);
-  //     setValue("nota", itemSelecionado.nota);
-  //     setValue("categoria", String(itemSelecionado.categoria.id));
-  //   }
-  // }, [itemSelecionado]);
+  useEffect(() => {
+    setFocus("nome");
+    if (itemSelecionado.id) {
+      reset();
+      setValue("nome", itemSelecionado.nome);
+      setValue("descricao", itemSelecionado.descricao);
+      setValue("image", itemSelecionado.image);
+      setValue("trailer", itemSelecionado.trailer);
+      setValue("genero", itemSelecionado.genero);
+      setValue("diretor", itemSelecionado.diretor);
+      setValue("anoLancamento", itemSelecionado.anoLancamento);
+      setValue("nota", itemSelecionado.nota);
+      setValue("categoria", String(itemSelecionado.categoria.id));
+    }
+  }, [itemSelecionado]);
 
-  
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+      tratarItemSelecionado({} as Item);
+    }
+  }, [isSubmitSuccessful]);
 
   if (errorCategorias) throw errorCategorias;
 
@@ -262,13 +267,33 @@ const CadastroDeItemsForm = ({
         <div className="col-xl-6">
           <div className="row">
             <div className="col-xl-10 offset-xl-2">
-              <button
+              {/* <button id="botao" type="submit" className="btn btn-primary btn-sm me-2">
+                  {itemSelecionado.id ? "Alterar" : "Cadastrar"}
+                
+                </button> */}
+              {/* <button
                 id="botao"
                 type="submit"
                 className="btn btn-primary btn-sm"
-              >
+    >
                 Cadastrar
-              </button>
+              </button> */}
+              
+              <button id="botao" type="submit" className="btn btn-primary btn-sm me-2">
+                  <img src="/skin/database_add.png" />{" "}
+                  {itemSelecionado.id ? "Alterar" : "zetar"}
+                </button>
+                <button
+                  onClick={() => {
+                    reset();
+                    tratarItemSelecionado({} as Item);
+                  }}
+                  id="botao"
+                  type="button"
+                  className="btn btn-danger btn-sm"
+                >
+                  <img src="/skin/database_add.png" /> Cancelar
+                </button>
             </div>
           </div>
         </div>

@@ -13,7 +13,9 @@ const DetalhesItem = () => {
     var item = location.state.data;
 
     const detalhesItem= (item: Item) => {
-      navigate(`/alteraitem`, {state: {data: item}})
+      console.log("ite++++++++++++++++++++++++++++++++++++++++++++++++")
+      console.log(item)
+      navigate(`/vertudo`, {state: {data: item}})
     }
 
     const tratarRemocaoItem = (id: number) => {
